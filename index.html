@@ -8,20 +8,82 @@
     <style>
     html,body{
         background:black;
+        margin:0;
+        font-family: '新細明體';
     }
-    *{
-        font-family:Monospace;
-        font-size:1.5rem;
-        color:green;
+    nav {
+        background:#0c0a66;
+        position:fixed;
+        top:0;
+        left:0;
+        height:40px;
+        width:100%;
+    }
+    section {
+        color:#ccc;
+        font-family: '新細明體';
+    }
+    a{
+        text-decoration: none;
+    }
+    .d-flex {
+        display:flex;
+    }
+    .container {
+        max-width:1200px;
+        width:100%;
+        margin:0 auto;
+    }
+    nav .container a:hover, nav .container a:visited {
+        color:#fff !important;
+        background:#338;
+    }
+    nav .container {
+        justify-content: space-between;
+        align-items:center;
+        height: 100%;
+    }
+    nav .logo {
+        padding: 0 10px;
+        color:#ff6;
+        font-size:24px;
+        line-height: 40px;
+    }
+    nav .items {
+        
+    }
+    nav .contact {
+        padding: 0 10px;
+        color:#ccc;
+        font-size:small;
+        line-height: 40px;
+    }
+    .main-section {
+        margin:40px 20px;
     }
     </style>
 </head>
 <body>
-    <h1>簽到區</h1>
-    <h2>ShawnLin</h2>
-    <h2>Roy</h2>
-    <h2>Su</h2>
-    <h2>Ginchenwu</h2>
-    <h2>Charles Wang</h2>
+<nav>
+    <div class="container d-flex">
+        <a href="#"><div class="logo">踢踢踢</div></a>
+        <div class="items d-flex">
+            <a href="https://redcandlegames.com/devotion/"><div class="contact">恭迎慈孤觀音入口</div></a>
+            <a href="https://github.com/LearnCodeIII"><div class="contact">聯絡我們</div></a>
+        </div>
+    </div>
+</nav>
+<section class="main-section">
+    <div class="container">
+        <article>
+            <h1>簽到區</h1>
+        </article>
+        <h2>ShawnLin</h2>
+        <h2>Roy</h2>
+        <h2>Su</h2>
+        <h2>Ginchenwu</h2>
+        <h2>Charles Wang</h2>
+    </div>
+</section>
 </body>
 </html>
