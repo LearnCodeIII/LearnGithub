@@ -1,0 +1,48 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    height:100%;
+}
+.container {
+    display:flex;
+}
+.box {
+    margin:0 10px;
+    padding:0;
+    width: 100px;
+    height: 100px;
+}
+.preview{
+    background:rgb(224, 224, 224);
+    width:50%;
+    height:100%;
+    position: fixed;
+    top:0;
+    right:0;
+}
+.previewNav{
+    background:black;
+    width:50%;
+    height:50px;
+    position: fixed;
+    top:0;
+    right:0;
+    color:white;
+    line-height: 50px;
+    padding-left: 1rem;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.previewSection {
+    box-sizing: border-box;
+    padding:4rem 1.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.previewArticle{
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+    margin:1.5rem 0;
+}
