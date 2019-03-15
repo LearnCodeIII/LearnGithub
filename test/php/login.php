@@ -30,7 +30,7 @@ if(isset($_POST['user']) and isset($_POST['password'])){
 ?>
 <?php include __DIR__.'/head.php'?>
 <?php include __DIR__.'/nav.php'?>
-<?php include __DIR__.'/ShawnLsidenav.php'?>
+<?php include __DIR__.'/Shawnsidenav.php'?>
 <section class="dashboard">
     <div class="container">
         <?php if(! isset($_SESSION['admin'])): ?>
