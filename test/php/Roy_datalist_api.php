@@ -46,7 +46,7 @@ include __DIR__."./PDO.php";
     // 如果頁數大於總頁數則顯示最後一頁
     $result["page"] = $page;
 
-    $sql = sprintf("SELECT * FROM `forum` LIMIT %s,%s", ($page-1)*$per_page, $per_page);
+    $sql = sprintf("SELECT * FROM `forum` ORDER BY sid DESC LIMIT %s,%s", ($page-1)*$per_page, $per_page);
     // 因為有%S所以用SPRINF，第一個帶入圍總
     $stmt = $pdo->query($sql);
 
