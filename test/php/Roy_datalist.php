@@ -26,7 +26,7 @@ include __DIR__ . '/PDO.php';
                         <th scope="col">文章編號</th>
                         <th scope="col">文章標題</th>
                         <th scope="col">影評</th>
-                        <th scope="col">發布日期</th>
+                        <th scope="col">發布時間</th>
                         <th scope="col">觀看日期</th>
                         <th scope="col">觀看戲院</th>
                         <th scope="col">電影評分</th>
@@ -53,6 +53,7 @@ const forum_databody = document.querySelector("#forum_databody");
 
 // 資料TABLE生成
 // ?sid=<%=sid%>要加才能選定刪除的sid
+// <a href="./Roy_data_delete.php?sid=<%=sid%>"> 不須刪除提醒的寫法
 const tr_str = ` <tr>
                     <td><%=sid%></td>
                     <td><%=headline%></td>
@@ -62,10 +63,21 @@ const tr_str = ` <tr>
                     <td><%=w_cinema%></td>
                     <td><%=film_rate%></td>
                     <td><%=fav%></td>
-                    <td><a href="./Roy_admin_insert_ajax.php"><i class="far fa-edit"></i></a></td>
-                    <td><a href="./Roy_data_delete.php?sid=<%=sid%>"><i class="far fa-trash-alt"></i></a></td>
+                    <td><a href="./Roy_data_edit.php"><i class="far fa-edit"></i></a></td>
+                    <td>
+                        <a href="javascript:delete_it(<%=sid%>)">
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                    </td>
 
                 </tr>`
+
+//刪除提醒
+function delete_it(sid){
+    if(confirm("確定要刪除編號"+ sid +"的資料嗎")){
+        location.href = "Roy_data_delete.php?sid="+sid;
+    }
+}
 const tr_func = _.template(tr_str);
 
 //分頁按鈕生成
@@ -109,7 +121,5 @@ const myHashChange = () => {
 }
 window.addEventListener('hashchange', myHashChange);
 myHashChange();
-
-
 </script>
 <?php include __DIR__ . './foot.php'?>

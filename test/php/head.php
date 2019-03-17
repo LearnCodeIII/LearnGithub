@@ -46,7 +46,7 @@
         color:rgb(216, 216, 216);
     }
     .dashboard {
-        position:fixed;
+        position:absolute;
         top:56px;
         left:120px;
         right:0;

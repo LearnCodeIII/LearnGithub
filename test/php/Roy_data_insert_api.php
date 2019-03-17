@@ -11,12 +11,12 @@ $result = [
 ];
 
 if (isset($_POST["checkme"])) {
-    $headline = $_POST["headline"];
-    $review = $_POST['review'];
-    $w_date = $_POST['w_date'];
-    $w_cinema = $_POST['w_cinema'];
-    $film_rate = $_POST['film_rate'];
-    $fav = $_POST['fav'];
+    $headline = htmlspecialchars($_POST["headline"]);
+    $review = htmlspecialchars($_POST['review']);
+    $w_date = htmlspecialchars($_POST['w_date']);
+    $w_cinema = htmlspecialchars($_POST['w_cinema']);
+    $film_rate = htmlspecialchars($_POST['film_rate']);
+    $fav = htmlspecialchars($_POST['fav']);
 
     $result["post"] = $_POST; // 做 echo 檢查
 
@@ -28,18 +28,10 @@ if (isset($_POST["checkme"])) {
         exit;
     }
 
-    //TODO:檢查EMAIL長度
-    // if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-    //     $result["errorCode"] = 403;
-    //     $result["errorMsg"] = "EMAIL輸入錯";
-    //     echo json_encode($result, JSON_UNESCAPED_UNICODE);
-    //     // 如果以上有錯就會進入這裡回傳，不會進資料庫
-    // exit;
-    // }
-
     $sql = "INSERT INTO `forum`(`headline`, `review`, `w_date`, `w_cinema`, `film_rate`, `fav`)
              VALUES (?, ?, ?, ?, ?, ?)";
     // 不用SPRINTF寫法
+
 
 // TRY CATCH偵錯，假設輸入錯誤EMAIL會顯示提醒EMAIL錯誤
     try {
@@ -68,4 +60,5 @@ if (isset($_POST["checkme"])) {
         $result["errorMsg"] = "email重複輸入";
     }
 }
+
 echo json_encode($result, JSON_UNESCAPED_UNICODE);

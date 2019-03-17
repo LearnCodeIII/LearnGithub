@@ -7,7 +7,9 @@ $db_name='movie';
 // $db_pass='13879428';
 $db_user='root';
 $db_pass='admin';
+
 $dsn="mysql:host=${db_host};dbname=${db_name}";
+
 
 try{
     $pdo = new PDO($dsn,$db_user,$db_pass);
