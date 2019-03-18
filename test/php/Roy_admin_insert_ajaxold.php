@@ -23,14 +23,14 @@ include __DIR__ . '/PDO.php';
                         <h5 class="card-title">發布文章
                         </h5>
                         <p>
-                            <span class="text-danger">*</span>為必填欄位
+                             <span class="text-danger">*</span>為必填欄位
                         </p>
                         <form name="form1" method="post" onsubmit="return checkForm();">
                             <input type="hidden" name="checkme" value="check123">
                             <div class="form-group">
-                                <label for="headline"><span class="text-danger">*</span>文章標題</label>
-                                <input type="text" class="form-control" id="headline" name="headline" placeholder=""
-                                    value="">
+                            <!-- TODO 星號沒有變紅色 -->
+                            <label for="headline"><span class="text-danger">*</span>文章標題</label>
+                                <input type="text" class="form-control" id="headline" name="headline" placeholder="" value="">
                                 <small id="headlineHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
@@ -40,32 +40,26 @@ include __DIR__ . '/PDO.php';
                             </div>
                             <div class="form-group">
                                 <label for="w_date"><span class="text-danger">*</span>觀看日期</label>
-                                <input type="text" class="form-control" id="w_date" name="w_date"
-                                    placeholder="YYYY-MM-DD" value="">
+                                <input type="text" class="form-control" id="w_date" name="w_date" placeholder="YYYY-MM-DD"
+                                    value="">
                                 <small id="w_dateHelp" class="form-text text-muted"></small>
                             </div>
-                            <!-- 無效 -->
-                            <!-- <div class="form-group">
-                                <label for="i_date">發布時間</label>
-                                <input type="text" class="form-control" id="i_date" name="i_date"
-                                    placeholder="YYYY-MM-DD" value="">
-                                <small id="w_dateHelp" class="form-text text-muted"></small>
-                            </div> -->
                             <div class="form-group">
                                 <label for="w_cinema">觀看戲院</label>
-                                <input type="text" class="form-control" id="w_cinema" name="w_cinema" placeholder=""
-                                    value="">
+                                <input type="text" class="form-control" id="w_cinema" name="w_cinema"
+                                    placeholder="" value="">
                                 <small id="w_cinemaHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                                 <label for="film_rate">電影評分</label>
                                 <input type="text" class="form-control" id="film_rate" name="film_rate"
-                                    placeholder="0-10" value="">
+                                    placeholder="" value="">
                                 <small id="film_rateHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                                 <label for="fav">我的最愛</label>
-                                <input type="text" class="form-control" id="fav" name="fav" placeholder="0-1" value="">
+                                <input type="text" class="form-control" id="fav" name="fav"
+                                    placeholder="" value="">
                                 <small id="favHelp" class="form-text text-muted"></small>
                             </div>
 
@@ -90,7 +84,6 @@ const fields = [
     'headline',
     'review',
     'w_date',
-    // 'i_date',無效
     'w_cinema',
     'film_rate',
     'fav',
@@ -117,18 +110,8 @@ const checkForm = () => {
     console.log(fsv);
 
 
-    // 評分限制
-    let rate_pattern = /^[1-9]$|^[1][0]$/;
-    // 喜好限制
-    let fav_pattern = /^[0-1]$/;
-
-    // dd/mm/yyyy
-    // let date_pattern = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
-
-    // yyyy/mm/dd
-    let date_pattern =
-        /^([0-9]{4}[-/]?((0[13-9]|1[012])[-/]?(0[1-9]|[12][0-9]|30)|(0[13578]|1[02])[-/]?31|02[-/]?(0[1-9]|1[0-9]|2[0-8]))|([0-9]{2}(([2468][048]|[02468][48])|[13579][26])|([13579][26]|[02468][048]|0[0-9]|1[0-6])00)[-/]?02[-/]?29)$/;
-
+    let email_pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    let mobile_pattern = /^09\d{2}\-?\d{3}\-?\d{3}$/;
 
     for (let v of fields) {
         fs[v].style.borderColor = '#cccccc';
@@ -146,23 +129,11 @@ const checkForm = () => {
     //     document.querySelector('#reviewHelp').innerHTML = '請填寫正確的 review!';
     //     isPassed = false;
     // }
-    if (!date_pattern.test(fsv.w_date)) {
-        fs.w_date.style.borderColor = 'red';
-        document.querySelector('#w_dateHelp').innerHTML = '請輸入正確日期!';
-        isPassed = false;
-    }
-    if (!rate_pattern.test(fsv.film_rate)) {
-        fs.film_rate.style.borderColor = 'red';
-        document.querySelector('#film_rateHelp').innerHTML = '請輸入正確區間!';
-        isPassed = false;
-    }
-
-    // TODO 如果不想必檢查的方式
-    if (!fav_pattern.test(fsv.fav)) {
-        fs.fav.style.borderColor = 'red';
-        document.querySelector('#favHelp').innerHTML = '請輸入正確值!';
-        isPassed = false;
-    }
+    // if (!mobile_pattern.test(fsv.w_date)) {
+    //     fs.w_date.style.borderColor = 'red';
+    //     document.querySelector('#w_dateHelp').innerHTML = '請填寫正確的手機號碼!';
+    //     isPassed = false;
+    // }
 
 
     if (isPassed) {
@@ -177,16 +148,12 @@ const checkForm = () => {
             .then(response => response.json())
             .then(obj => {
                 console.log(obj);
+
                 info_bar.style.display = 'block';
+
                 if (obj.success) {
                     info_bar.className = 'alert alert-success';
-                    info_bar.innerHTML = '資料新增成功，五秒後自行轉跳';
-                    func = () => {
-                        location.href = "Roy_datalist.php";
-                    }
-                    setTimeout(() => {
-                        func();
-                    }, 5000);
+                    info_bar.innerHTML = '資料新增成功';
                 } else {
                     info_bar.className = 'alert alert-danger';
                     info_bar.innerHTML = obj.errorMsg;

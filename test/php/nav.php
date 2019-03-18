@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">.Moiveee</a>
+    <a class="navbar-brand" href="./RoyPageMain.php">.Moiveee</a>
 	<div class="container-fulid">
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
 					<a class="nav-link" href="#">文章系統</a>
 				</li>
 				<li class="nav-item <?= $pagename == "pageHome"?"active":""; ?>">
-					<a class="nav-link" href="#">活動系統</a>
+					<a class="nav-link" href="./RoyPageMain.php">活動系統</a>
 				</li>
 				<li class="nav-item <?= $pagename == "pageData"?"active":""; ?>">
 					<a class="nav-link" href="#">論壇系統</a>

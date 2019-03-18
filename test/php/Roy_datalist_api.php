@@ -6,7 +6,7 @@ include __DIR__."./PDO.php";
     // 順序要在RESULT之前，不然PERPAGE抓取會有問題
     
     $result =[
-        "succes" => false,
+        "success" => false,
         "tRows" => 0,
         "page" => 0,
         "totalPages" =>0,
@@ -31,17 +31,17 @@ include __DIR__."./PDO.php";
   
 
     // 總頁數
-    $toatalPages = ceil($t_rows/$per_page);
+    $totalPages = ceil($t_rows/$per_page);
     // 總頁數為總比數/單頁筆數
-    $result["totalPages"] = $toatalPages;
+    $result["totalPages"] = $totalPages;
 
 
     if ($page<1) {
         $page = 1;
     }
     // 如果頁數小於1則顯示第一頁
-    if ($page>$toatalPages) {
-        $page = $toatalPages;
+    if ($page>$totalPages) {
+        $page = $totalPages;
     }
     // 如果頁數大於總頁數則顯示最後一頁
     $result["page"] = $page;
@@ -58,7 +58,7 @@ include __DIR__."./PDO.php";
     $rows = $stmt->fetchall(PDO::FETCH_ASSOC);
     // 將所有抓出的資料倒進ROWS
     $result["data"] = $rows;
-
+    $result['success'] = true;
 
     $pagename = "datalist";
     // 隨意設定一名稱，讓NAV可以用三元運算來設定規則

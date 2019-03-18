@@ -11,11 +11,24 @@ include __DIR__ . '/PDO.php';
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 d-flex justify-content-center">
+                <div class="pagenav">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
                 <nav class="d-flex">
-                    <!-- TODO: 第一頁-->
+                    <ul class="firstpage pagination pagination-sm">
+                    </ul>
+                    <ul class="prepage pagination pagination-sm">
+                    </ul>
                     <ul class="allpages pagination pagination-sm">
                     </ul>
-                    <!-- TODO:最後一頁 -->
+                    <ul class="nextpage pagination pagination-sm">
+                    </ul>
+                    <ul class="lastpage pagination pagination-sm">
+                    </ul>
                 </nav>
             </div>
         </div>
@@ -46,8 +59,14 @@ include __DIR__ . '/PDO.php';
 
 <script>
 let page = 1;
+
 let ori_data;
 const ul_pagi = document.querySelector('.allpages');
+const pagenav = document.querySelector('.pagenav');
+const ul_first = document.querySelector('.firstpage');
+const ul_pre = document.querySelector('.prepage');
+const ul_next = document.querySelector('.nextpage');
+const ul_last = document.querySelector('.lastpage');
 const forum_databody = document.querySelector("#forum_databody");
 
 
@@ -63,7 +82,7 @@ const tr_str = ` <tr>
                     <td><%=w_cinema%></td>
                     <td><%=film_rate%></td>
                     <td><%=fav%></td>
-                    <td><a href="./Roy_data_edit.php"><i class="far fa-edit"></i></a></td>
+                    <td><a href="./Roy_data_edit.php?sid=<%=sid%>"><i class="far fa-edit"></i></a></td>
                     <td>
                         <a href="javascript:delete_it(<%=sid%>)">
                             <i class="far fa-trash-alt"></i>
@@ -73,26 +92,42 @@ const tr_str = ` <tr>
                 </tr>`
 
 //刪除提醒
-function delete_it(sid){
-    if(confirm("確定要刪除編號"+ sid +"的資料嗎")){
-        location.href = "Roy_data_delete.php?sid="+sid;
+function delete_it(sid) {
+    if (confirm("確定要刪除編號" + sid + "的資料嗎")) {
+        location.href = "Roy_data_delete.php?sid=" + sid;
     }
 }
 const tr_func = _.template(tr_str);
 
+
 //分頁按鈕生成
-const pagi_str = `<li class="page-item <%= active %>">
+const pagi_str = `<li class="page-item  <%= active%>" style="visibility:<%= h %>">
                     <a class="page-link" href="#<%= page %>"><%= page %></a>
                   </li>`;
+
+
+
 const pagi_func = _.template(pagi_str);
 
 // 文章匯入
 const myHashChange = () => {
     let h = location.hash.slice(1);
     page = parseInt(h);
+
     if (isNaN(page)) {
         page = 1;
     }
+    const pagi_first = `<li class="page-item ${page<=1? "disabled":""} ">
+                    <a class="page-link" href="#1">&lt;&lt;</a>
+                  </li>`;
+    const pagi_pre = `<li class="page-item ${page<=1? "disabled":""} ">
+                    <a class="page-link" href="#${page-1}">&lt;</a>
+                  </li>`;
+
+    ul_first.innerHTML = pagi_first;
+    ul_pre.innerHTML = pagi_pre;
+
+
     fetch("Roy_datalist_api.php?page=" + page)
         .then(response => response.json())
         .then(json => {
@@ -101,24 +136,43 @@ const myHashChange = () => {
 
             // 文章內容匯入
             let str = '';
+
             for (let v of ori_data.data) {
                 str += tr_func(v);
             }
             forum_databody.innerHTML = str;
 
             // 分頁按鈕
+
             str = '';
             for (let i = 1; i <= ori_data.totalPages; i++) {
                 let active = ori_data.page === i ? 'active' : '';
-
+          
+                let hide = ""
                 str += pagi_func({
                     active: active,
+                    h:hide,
                     page: i
                 });
+                const pagi_next = `<li class="page-item ${page>=ori_data.totalPages? "disabled":""}">
+                    <a class="page-link" href="#${page+1}">&gt</a>
+                  </li>`;
+
+                const pagi_last = `<li class="page-item ${page>=ori_data.totalPages? "disabled":""}">
+                    <a class="page-link" href="#${ori_data.totalPages}">&gt&gt</a>
+                  </li>`;
+                ul_next.innerHTML = pagi_next;
+                ul_last.innerHTML = pagi_last;
+                console.log(str)
+
             }
             ul_pagi.innerHTML = str;
+            pagenav.innerHTML = "第" + page + "頁/共" + ori_data.totalPages + "頁";
         })
+
 }
+
+
 window.addEventListener('hashchange', myHashChange);
 myHashChange();
 </script>

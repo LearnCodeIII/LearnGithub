@@ -12,6 +12,18 @@ $result = [
         
 ];
 $sid = isset($_POST['sid']) ? intval($_POST['sid']) : 0;
+if (!isset($sid)){
+    $result["errorMsg"] = '沒有SID參數';
+    echo json_encode($result, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+
+// $s_sql = "SELECT * FROM forum WHERE sid=$sid";
+// $s_stmt = $pdo->query($s_sql);
+// $row = $s_stmt->fetch(PDO::FETCH_ASSOC);
+// $result['success'] = true;
+// echo json_encode($result, JSON_UNESCAPED_UNICODE);
 
 if(isset($_POST['headline']) and !empty($sid)){
     $headline = $_POST['headline'];
@@ -58,8 +70,8 @@ if(isset($_POST['headline']) and !empty($sid)){
                 `review`=?,
                 `w_date`=?,
                 `w_cinema`=?,
-                `film_rate`=? 
-                `fav`=? 
+                `film_rate`=?,
+                `fav`=?
                 WHERE `sid`=?";
 
     try {

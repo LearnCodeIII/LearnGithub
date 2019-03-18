@@ -3,16 +3,17 @@
 require __DIR__. '/PDO.php';
 $page_name = 'data_edit';
 
-// $sid = isset($_POST['sid']) ? intval($_POST['sid']) : 0;
+$sid = isset($_GET['sid']) ? intval($_GET['sid']) : 0;
 
-// $sql = "SELECT * FROM forum WHERE sid=$sid";
+$sql = "SELECT * FROM forum WHERE sid=$sid";
 
-// $stmt = $pdo->query($sql);
-// if($stmt->rowCount()==0){
-//     header('Location: Roy_datalist.php');
-//     exit;
-// }
-// $row = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $pdo->query($sql);
+if($stmt->rowCount()==0){
+    header('Location: Roy_datalist.php');
+    exit;
+}
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+echo $row;
 
 ?>
 <?php include __DIR__. './head.php';  ?>
@@ -38,45 +39,47 @@ $page_name = 'data_edit';
                         </h5>
                         <form name="form1" method="post" onsubmit="return checkForm();">
                             <input type="hidden" name="checkme" value="check123">
+                            <input type="hidden" name="sid" value="<?= $row["sid"]?>">
+                            <!-- VALUE要設抓SID，否則API抓不到SID無法進去撈資料 -->
                             <div class="form-group">
                                 <label for="headline"><span class="text-danger">*</span>文章標題</label>
                                 <input type="text" class="form-control" id="headline" name="headline" placeholder=""
-                                    value="">
+                                    value="<?= $row["headline"]?>">
                                 <small id="headlineHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                                 <label for="review"><span class="text-danger">*</span>文章內容</label>
-                                <textarea class="form-control" id="review" name="review" cols="30" rows="3"></textarea>
+                                <textarea class="form-control" id="review" name="review" cols="30" rows="3"><?= $row["review"]?></textarea>
                                 <small id="reviewHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                                 <label for="w_date"><span class="text-danger">*</span>觀看日期</label>
                                 <input type="text" class="form-control" id="w_date" name="w_date"
-                                    placeholder="YYYY-MM-DD" value="">
+                                    placeholder="YYYY-MM-DD" value="<?= $row["w_date"]?>">
                                 <small id="w_dateHelp" class="form-text text-muted"></small>
                             </div>
-                            <!-- 無效
-                                <div class="form-group">
+                            <!-- 無效 -->
+                                <!-- <div class="form-group">
                                     <label for="i_date">發布時間</label>
                                     <input type="text" class="form-control" id="i_date" name="i_date"
-                                        placeholder="YYYY-MM-DD" value="">
+                                        placeholder="YYYY-MM-DD" value="<?= $row["i_date"]?>">
                                     <small id="w_dateHelp" class="form-text text-muted"></small>
                                 </div> -->
                             <div class="form-group">
                                 <label for="w_cinema">觀看戲院</label>
                                 <input type="text" class="form-control" id="w_cinema" name="w_cinema" placeholder=""
-                                    value="">
+                                    value="<?= $row["w_cinema"]?>">
                                 <small id="w_cinemaHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                                 <label for="film_rate">電影評分</label>
                                 <input type="text" class="form-control" id="film_rate" name="film_rate"
-                                    placeholder="0-10" value="">
+                                    placeholder="0-10" value="<?= $row["film_rate"]?>">
                                 <small id="film_rateHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                                 <label for="fav">我的最愛</label>
-                                <input type="text" class="form-control" id="fav" name="fav" placeholder="0-1" value="">
+                                <input type="text" class="form-control" id="fav" name="fav" placeholder="0-1" value="<?= $row["fav"]?>">
                                 <small id="favHelp" class="form-text text-muted"></small>
                             </div>
 
@@ -97,10 +100,9 @@ const fields = [
     'headline',
     'review',
     'w_date',
-    // 'i_date',無效
     'w_cinema',
     'film_rate',
-    'fav',
+    'fav'
 ];
 
 // 拿到每個欄位的參照
@@ -109,7 +111,9 @@ for (let v of fields) {
     fs[v] = document.form1[v];
 }
 console.log(fs);
-console.log('fs.name:', fs.name);
+console.log('fs.headline:', fs.headline);
+console.log('fs.review:', fs.review);
+console.log('fs.w_date:', fs.w_date);
 
 
 const checkForm = () => {
@@ -188,7 +192,13 @@ const checkForm = () => {
 
                 if (obj.success) {
                     info_bar.className = 'alert alert-success';
-                    info_bar.innerHTML = '資料修改成功';
+                    info_bar.innerHTML = '資料新增成功，五秒後自行轉跳';
+                    func = () => {
+                        location.href = "Roy_datalist.php";
+                    }
+                    setTimeout(() => {
+                        func();
+                    }, 5000);
                 } else {
                     info_bar.className = 'alert alert-danger';
                     info_bar.innerHTML = obj.errorMsg;
