@@ -49,7 +49,8 @@ echo $row;
                             </div>
                             <div class="form-group">
                                 <label for="review"><span class="text-danger">*</span>文章內容</label>
-                                <textarea class="form-control" id="review" name="review" cols="30" rows="3"><?= $row["review"]?></textarea>
+                                <!-- <textarea class="form-control" id="review" name="review" cols="30" rows="3"><?= $row["review"]?></textarea> -->
+                                <textarea class="form-control" id="review" name="review"><?= htmlspecialchars($row["review"])?></textarea>
                                 <small id="reviewHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
@@ -95,6 +96,13 @@ echo $row;
 <script>
 const info_bar = document.querySelector('#info_bar');
 const submit_btn = document.querySelector('#submit_btn');
+
+ClassicEditor
+        .create( document.querySelector( '#review' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+
 
 const fields = [
     'headline',

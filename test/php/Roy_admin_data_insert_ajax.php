@@ -15,7 +15,7 @@ include __DIR__ . '/PDO.php';
 <section class="dashboard">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div id="info_bar" class="alert alert-success" role="alert" style="display: none">
                 </div>
                 <div class="card">
@@ -35,7 +35,8 @@ include __DIR__ . '/PDO.php';
                             </div>
                             <div class="form-group">
                                 <label for="review"><span class="text-danger">*</span>文章內容</label>
-                                <textarea class="form-control" id="review" name="review" cols="30" rows="3"></textarea>
+                                <!-- <textarea class="form-control" id="review" name="review" cols="30" rows="3"></textarea> -->
+                                <textarea class="form-control" name="review" id="review" ></textarea>
                                 <small id="reviewHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
@@ -95,6 +96,13 @@ const fields = [
     'film_rate',
     'fav',
 ];
+
+ClassicEditor
+    .create(document.querySelector('#review'))
+    .catch(error => {
+        console.error(error);
+    });
+
 
 // 拿到每個欄位的參照
 const fs = {};

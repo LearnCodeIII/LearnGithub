@@ -11,6 +11,7 @@
     <script src="../js/jquery-3.3.1.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/underscore.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
     <link rel="stylesheet" href="../css/main.css">
     <style>
         html,body{
