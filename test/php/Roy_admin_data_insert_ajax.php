@@ -36,7 +36,7 @@ include __DIR__ . '/PDO.php';
                             <div class="form-group">
                                 <label for="review"><span class="text-danger">*</span>文章內容</label>
                                 <!-- <textarea class="form-control" id="review" name="review" cols="30" rows="3"></textarea> -->
-                                <textarea class="form-control" name="review" id="review" ></textarea>
+                                <textarea class="form-control" name="review" id="review"></textarea>
                                 <small id="reviewHelp" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
@@ -69,6 +69,17 @@ include __DIR__ . '/PDO.php';
                                 <input type="text" class="form-control" id="fav" name="fav" placeholder="0-1" value="">
                                 <small id="favHelp" class="form-text text-muted"></small>
                             </div>
+                            <div class="form-group">
+
+                                <label for="intro_pic ">圖片</label>
+                                <figure>
+                                    <img id="myimg" src="" alt="" width="200px">
+                                </figure>
+                                <input type="file" class="form-control" id="intro_pic" name="intro_pic" placeholder=""
+                                    value="">
+                                <small id="intro_picHelp" class="form-text text-muted"></small>
+
+                            </div>
 
                             <button id="submit_btn" type="submit" class="btn btn-primary">Submit</button>
                         </form>
@@ -85,6 +96,30 @@ include __DIR__ . '/PDO.php';
 </section>
 
 <script>
+// 上傳檔案
+const myimg = document.querySelector("#myimg");
+const intro_pic = document.querySelector("#intro_pic");
+
+intro_pic.addEventListener("change", event => {
+    // 當偵測到有變更後，觸發箭頭韓式EVENT
+    //console.log(event.target);
+    const fd = new FormData();
+
+    fd.append('intro_pic', intro_pic.files[0]);
+    fetch('Roy_upload_multi_api.php', {
+            method: 'POST',
+            body: fd
+        })
+        .then(response => response.json())
+        .then(obj => {
+            console.log(obj);
+            myimg.setAttribute('src', '../pic/roy/' + obj.filename);
+            // 要指定好變更後的路徑
+        });  
+})
+
+
+
 const info_bar = document.querySelector('#info_bar');
 const submit_btn = document.querySelector('#submit_btn');
 const fields = [
@@ -95,14 +130,8 @@ const fields = [
     'w_cinema',
     'film_rate',
     'fav',
+    `intro_pic`
 ];
-
-ClassicEditor
-    .create(document.querySelector('#review'))
-    .catch(error => {
-        console.error(error);
-    });
-
 
 // 拿到每個欄位的參照
 const fs = {};
@@ -173,7 +202,12 @@ const checkForm = () => {
     }
 
 
+
+
+
     if (isPassed) {
+
+
         let form = new FormData(document.form1);
 
         submit_btn.style.display = 'none';
@@ -189,12 +223,12 @@ const checkForm = () => {
                 if (obj.success) {
                     info_bar.className = 'alert alert-success';
                     info_bar.innerHTML = '資料新增成功，五秒後自行轉跳';
-                    func = () => {
-                        location.href = "Roy_datalist.php";
-                    }
-                    setTimeout(() => {
-                        func();
-                    }, 5000);
+                    // func = () => {
+                    //     location.href = "Roy_datalist.php";
+                    // }
+                    // setTimeout(() => {
+                    //     func();
+                    // }, 5000);
                 } else {
                     info_bar.className = 'alert alert-danger';
                     info_bar.innerHTML = obj.errorMsg;
@@ -204,5 +238,11 @@ const checkForm = () => {
     }
     return false;
 };
+
+ClassicEditor
+    .create(document.querySelector('#review'))
+    .catch(error => {
+        console.error(error);
+    });
 </script>
 <?php include __DIR__ . './foot.php'?>
