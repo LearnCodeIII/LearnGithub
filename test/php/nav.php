@@ -17,7 +17,7 @@
 					<a class="nav-link" href="#">影片系統</a>
 				</li>
 				<li class="nav-item <?= $pagename == "pageData"?"active":""; ?>">
-					<a class="nav-link" href="#">文章系統</a>
+					<a class="nav-link" href="RuthPageMain.php">文章系統</a>
 				</li>
 				<li class="nav-item <?= $pagename == "pageHome"?"active":""; ?>">
 					<a class="nav-link" href="./RoyPageMain.php">活動系統</a>
