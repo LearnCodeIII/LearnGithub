@@ -64,10 +64,13 @@ include __DIR__.'./film_sidenav.php';
 
                                 <label for="movie_pic">電影圖</label>
                                 <div class="custom-file form-group">
-                                    <input type="file" class="custom-file-input" id="movie_pic" name="movie_pic">
+                                    <input type="file" class="custom-file-input" id="movie_pic" name="movie_pic"
+                                        accept="image/*" onchange="loadFile(event)">
                                     <label class="custom-file-label" for="customFile" data-browse="上傳檔案">選擇檔案</label>
                                     <small id="movie_picHelp" class="form-text text-muted"></small>
-                                    <img id="myimg" src="" alt="" width="250px">
+                                    <div class="overflow-hidden" width="200px" height="200px">
+                                        <img id="output" src="" alt="">
+                                    </div>
                                 </div>
 
 
@@ -83,7 +86,7 @@ include __DIR__.'./film_sidenav.php';
                                 <div class="form-group">
                                     <label for="movie_ver">放映類型</label>
                                     <select class="custom-select" id="movie_ver" name="movie_ver">
-                                          <option value="4DX">4DX</option>
+                                        <option value="4DX">4DX</option>
                                         <option value="IMAX">IMAX</option>
                                         <option value="3D">3D</option>
                                         <option value="數位2D">數位2D</option>
@@ -93,10 +96,10 @@ include __DIR__.'./film_sidenav.php';
                                 <div class="form-group">
                                     <label for="movie_rating">電影分級</label>
                                     <select class="custom-select" id="movie_rating" name="movie_rating">
-                                          <option value="普遍級">普</option>
-                                        <option value="保護級">護</option>
-                                        <option value="輔導級">輔</option>
-                                        <option value="限制級">限</option>
+                                        <option value="普遍級">普遍級</option>
+                                        <option value="保護級">保護級</option>
+                                        <option value="輔導級">輔導級</option>
+                                        <option value="限制級">限制級</option>
                                     </select>
                                     <small id="movie_ratingHelp" class="form-text text-muted"></small>
                                 </div>
@@ -166,8 +169,6 @@ include __DIR__.'./film_sidenav.php';
                                         <option value="是">是</option>
                                         <option value="否">否</option>
                                     </select>
-                                    <!-- <input type="text" class="form-control" id="subtitle" name="subtitle"
-                                        placeholder="是/否" value=""> -->
                                     <small id="subtitleHelp" class="form-text text-muted"></small>
                                 </div>
                                 <div class="form-group">
@@ -180,9 +181,7 @@ include __DIR__.'./film_sidenav.php';
                             </div>
 
                         </div>
-
-                        <button id="submit_btn" type="submit" class="btn btn-primary">送出</button>
-
+                        <button id="submit_btn" type="submit" class="btn btn-primary btn-block">送出</button>
                     </form>
 
                 </div>
@@ -280,6 +279,11 @@ include __DIR__.'./film_sidenav.php';
         bsCustomFileInput.init();
     })
 
+    //上傳圖片前預覽
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
 
 
 

@@ -62,7 +62,7 @@ include __DIR__.'./film_sidenav.php';
                                 <div class="form-group">
                                     <label for="intro_tw">電影介紹中文</label>
                                     <textarea class="form-control" id="intro_tw" name="intro_tw" cols="30"
-                                        rows="3" ><?= $row['intro_tw']?></textarea>
+                                        rows="3"><?= $row['intro_tw']?></textarea>
                                     <small id="intro_twHelp" class="form-text text-muted"></small>
                                 </div>
 
@@ -75,10 +75,13 @@ include __DIR__.'./film_sidenav.php';
 
                                 <label for="movie_pic">電影圖</label>
                                 <div class="custom-file form-group">
-                                    <input type="file" class="custom-file-input" id="movie_pic" name="movie_pic">
+                                    <input type="file" class="custom-file-input" id="movie_pic" name="movie_pic"
+                                        accept="image/*" onchange="loadFile(event)">
                                     <label class="custom-file-label" for="customFile" data-browse="上傳檔案">選擇檔案</label>
                                     <small id="movie_picHelp" class="form-text text-muted"></small>
-                                    <img id="myimg" src="" alt="" width="250px">
+                                    <div class="overflow-hidden" width="200px" height="200px">
+                                        <img id="output" src="../pic/film_upload/<?= $row['movie_pic']?>" alt="">
+                                    </div>
                                 </div>
 
 
@@ -94,7 +97,7 @@ include __DIR__.'./film_sidenav.php';
                                 <div class="form-group">
                                     <label for="movie_ver">放映類型</label>
                                     <select class="custom-select" id="movie_ver" name="movie_ver">
-                                          <option value="4DX">4DX</option>
+                                        <option value="4DX">4DX</option>
                                         <option value="IMAX">IMAX</option>
                                         <option value="3D">3D</option>
                                         <option value="數位2D">數位2D</option>
@@ -104,10 +107,10 @@ include __DIR__.'./film_sidenav.php';
                                 <div class="form-group">
                                     <label for="movie_rating">電影分級</label>
                                     <select class="custom-select" id="movie_rating" name="movie_rating">
-                                          <option value="普遍級">普</option>
-                                        <option value="保護級">護</option>
-                                        <option value="輔導級">輔</option>
-                                        <option value="限制級">限</option>
+                                        <option value="普遍級">普遍級</option>
+                                        <option value="保護級">保護級</option>
+                                        <option value="輔導級">輔導級</option>
+                                        <option value="限制級">限制級</option>
                                     </select>
                                     <small id="movie_ratingHelp" class="form-text text-muted"></small>
                                 </div>
@@ -192,7 +195,7 @@ include __DIR__.'./film_sidenav.php';
 
                         </div>
 
-                        <button id="submit_btn" type="submit" class="btn btn-primary">送出</button>
+                        <button id="submit_btn" type="submit" class="btn btn-primary btn-block">送出</button>
 
                     </form>
 
@@ -238,7 +241,7 @@ include __DIR__.'./film_sidenav.php';
         fs[v] = document.form1[v];
     }
     console.log(fs);
-    console.log('fs.name_tw:', fs.name_tw );
+    console.log('fs.name_tw:', fs.name_tw);
 
     const checkForm = () => {
 
@@ -312,6 +315,54 @@ include __DIR__.'./film_sidenav.php';
     $(document).ready(function () {
         bsCustomFileInput.init();
     })
+
+    //上傳圖片前預覽
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+
+
+    //匯入資訊 對比資料庫資料值入selected
+    // array.forEach(element => {
+
+    // });
+    // if (movie_ver.options[0].selected ==) {
+    //     movie_ver.options[0].selected = true;
+    // }
+
+    // const gotop = () => {
+    //     location.href = './film_data_edit.php';
+    // }
+
+    // movie_ver.options[0].selected = true
+    // true
+
+
+    // const siteid = [
+    //     'movie_ver',
+    //     'movie_rating',
+    //     'subtitle',
+    // ];
+
+    // function setOption(selectElement, value) {
+    //     var options = selectElement.options;
+    //     for (var i = 0, optionsLength = options.length; i < optionsLength; i++) {
+    //         if (options[i].value == value) {
+    //             selectElement.selectedIndex = i;
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    // siteid.forEach(function (element) {
+    //     setOption(
+    //         // document.querySelector('select[name=element]'),
+    //         "<?php echo $sid; ?>"
+    //     );
+    // });
 
 
 </script>
