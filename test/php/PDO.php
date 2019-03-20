@@ -2,9 +2,9 @@
 
 //設定資料庫
 $db_host='localhost';
-$db_name='movie';
-$db_user='shawnlin';
-$db_pass='13879428';
+$db_name='movie_db';
+$db_user='ruruya';
+$db_pass='9527';
 $dsn="mysql:host=${db_host};dbname=${db_name}";
 
 
