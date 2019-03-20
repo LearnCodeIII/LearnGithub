@@ -11,7 +11,6 @@
     <script src="../js/jquery-3.3.1.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/underscore.js"></script>
-    <script src="../js/bs-custom-file-input.min.js"></script>
     <link rel="stylesheet" href="../css/main.css">
     <style>
         html,body{
@@ -47,13 +46,13 @@
         color:rgb(216, 216, 216);
     }
     .dashboard {
-        position:fixed;
+        position:absolute;
         top:56px;
         left:120px;
         right:0;
+        bottom:auto;
         padding:3rem;
     }
-
     </style>
 
 </head>
