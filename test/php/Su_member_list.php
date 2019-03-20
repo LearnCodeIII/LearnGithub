@@ -38,6 +38,8 @@ $spname = 'member_list';
     <table class="table table-bordered table-hover text-center">
     <thead class="thead-dark">
       <tr>
+        <th scope="col" class="text-nowrap"><i class="fas fa-edit"></i></th>
+        <th><i class="fas fa-trash-alt"></i></th>
         <th scope="col" class="text-nowrap">會員編號</th>
         <th scope="col" class="text-nowrap">姓名</th>
         <th scope="col" class="text-nowrap">暱稱</th>
@@ -79,6 +81,14 @@ const page_info = document.querySelector('.page_info');
 
 //使用underscore.js的template字串
 const tr_str = `<tr>
+          <th scope="row">
+            <a href="Su_member_edit.php?sid=<%= sid %>"> <i class="fas fa-edit"></i></a>
+          </th>
+          <td>
+                <a href="javascript: delete_it(<%= sid %>)">
+                <i class="text-danger fas fa-trash-alt"></i>
+                </a>
+          </td>
           <th scope="row"><%= sid %></th>
           <td class="text-nowrap"><%= name %></td>
           <td><%= nickname %></td>
@@ -88,7 +98,7 @@ const tr_str = `<tr>
           <td><%= email %></td>
           <td class="text-nowrap"><%= mobile %></td>
           <td><%= fav_type %></td>
-          <td><%= avatar %></td>
+          <td><img src="../pic/avatar/<%= avatar %>" alt="" width="100"></td>
           <td><%= join_date %></td>
           <td><%= pwd %></td>
           <td><%= pwd_change_d %></td>
@@ -101,13 +111,15 @@ const tr_str = `<tr>
 const tr_function = _.template(tr_str);
 
 
-
-
-const page_str = `
-                  <li class="page-item  <%= active %>" style="visibility:<%= v %>">
-                  <a class="page-link" href="#<%= page %>"><%= page %></a></li>
-                 `
+const page_str = `<li class="page-item  <%= active %>" style="visibility:<%= v %>">
+                  <a class="page-link" href="#<%= page %>"><%= page %></a></li>`;
 const page_function = _.template(page_str);
+
+function delete_it(sid){
+  if(confirm(`確定要刪除編號為${sid}的資料嗎?`)){
+    location.href= 'Su_member_list_delete.php?sid='+sid;
+  }
+}
 
 
 
@@ -136,7 +148,7 @@ const myHashChange = () =>{
         };
         data_body.innerHTML = str;
 
-
+ 
         //製作頁碼按鈕
         p_btn_num=7;//設定可顯示幾個頁碼按鈕(需使用奇數)
         str = '';
@@ -151,8 +163,7 @@ const myHashChange = () =>{
             v:vh,
             page:ori_data.page+i,
           });
-        }
-         
+        } 
         ul_pagi.innerHTML = str;
 
 
@@ -179,17 +190,25 @@ const myHashChange = () =>{
 
 
         //資料筆數、頁數資訊
-        data_info.innerHTML=`
+        if(page>=ori_data.totalPage){
+          data_info.innerHTML=`
           <div class="col-lg-5">總資料筆數：${ori_data.totalRows} 筆</div>
-          <div class="col-lg-7">本頁資料：第${(page-1)*ori_data.dperPage+1} ~ ${page*ori_data.dperPage>ori_data.totalRows ? ori_data.totalRows : page*ori_data.dperPage} 筆</div>`
-        page_info.innerHTML=`
-          <div class="text-right">頁數：${page} /  ${ori_data.totalPage}</div>`
-
-
-
-
-
-       
+          <div class="col-lg-7">本頁資料：第${(ori_data.totalPage-1)*ori_data.dperPage+1} ~ ${ori_data.totalRows} 筆</div>`
+          page_info.innerHTML=`
+          <div class="text-right">頁數：${ori_data.totalPage}  /  ${ori_data.totalPage}</div>`
+        }else if(page<1){
+          data_info.innerHTML=`
+          <div class="col-lg-5">總資料筆數：${ori_data.totalRows} 筆</div>
+          <div class="col-lg-7">本頁資料：第1 ~ ${ori_data.dperPage} 筆</div>`
+          page_info.innerHTML=`
+          <div class="text-right">頁數：1 / ${ori_data.totalPage}</div>`
+        }else{
+          data_info.innerHTML=`
+          <div class="col-lg-5">總資料筆數：${ori_data.totalRows} 筆</div>
+          <div class="col-lg-7">本頁資料：第${(page-1)*ori_data.dperPage+1 } ~ ${page*ori_data.dperPage} 筆</div>`
+          page_info.innerHTML=`
+          <div class="text-right">頁數：${page} / ${ori_data.totalPage}</div>`
+        }
     });
 };
 
