@@ -1,120 +1,105 @@
 <?php
-//require __DIR__. '/__cred.php';
 require __DIR__ . '/PDO.php';
-$page_name = '_adAnnDataInsert_api';
-
-$sn = isset($_GET['sn']) ? intval($_GET['sn']) : 0;
-
-$sql = "SELECT * FROM ad WHERE sn = $sn";
-
-$stmt = $pdo->query($sql);
-if($stmt->rowCount() == 0){
-    header('Location: AnnDataList.php');
-    exit;
-}
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+$page_name = 'ann_client_create';
 ?>
 
 <?php include __DIR__ . '/head.php'; ?>
 <?php include __DIR__ . '/nav.php'; ?>
-<?php include __DIR__.'/AnnSideNav.php'?>
+<?php include __DIR__.'/ann_side_nav.php'?>
 
 <style>
 .form-group small {
     color: red !important;
-    /* To override the default color */
 }
 </style>
 
 <section class="dashboard">
-
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
+                <!-- <div class="alert alert-success" role="alert" style="display: none"></div> -->
                 <div id="info_bar" class="alert alert-success" role="alert" style="display: none">
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">客戶資料修改</h5>
 
+                <div class="card">
+                    <h5 class="card-header">新增客戶資料</h5>
+                    <div class="card-body">
                         <form name="form1" method="post" onsubmit="return checkForm();">
                             <input type="hidden" name="checkme" value="check123">
                             <input type="hidden" name="sn" value="<?= $row['sn']?>">
 
                             <div class="form-group">
-                                <label for="client_name">客戶公司</label>
+                                <label for="client_name">公司名稱</label>
                                 <input type="text" class="form-control" id="client_name" name="client_name"
-                                    placeholder="" value="<?= $row['client_name']?>">
+                                    placeholder="" value="">
                                 <small id="client_nameHelp" class="form-text text-muted"></small>
                             </div>
 
                             <div class="form-group">
                                 <label for="client_number">客戶編號</label>
                                 <input type="text" class="form-control" id="client_number" name="client_number"
-                                    placeholder="" value="<?= $row['client_number']?>">
+                                    placeholder="" value="">
                                 <small id="client_numberHelp" class="form-text text-muted"></small>
                             </div>
 
                             <div class="form-group">
                                 <label for="client_address">客戶地址</label>
                                 <textarea class="form-control" id="client_address" name="client_address" cols="30"
-                                    rows="3"><?= $row['client_address']?></textarea>
+                                    rows="3"></textarea>
                                 <small id="client_addressHelp" class="form-text text-muted"></small>
                             </div>
 
                             <div class="form-group">
                                 <label for="client_poc">聯絡人</label>
                                 <input type="text" class="form-control" id="client_poc" name="client_poc" placeholder=""
-                                    value="<?= $row['client_poc']?>">
+                                    value="">
                                 <small id="client_pocHelp" class="form-text text-muted"></small>
                             </div>
 
                             <div class="form-group">
                                 <label for="client_mobile">連絡電話</label>
                                 <input type="text" class="form-control" id="client_mobile" name="client_mobile"
-                                    placeholder="" value="<?= $row['client_mobile']?>">
+                                    placeholder="" value="">
                                 <small id="client_mobileHelp" class="form-text text-muted"></small>
                             </div>
 
                             <div class="form-group">
                                 <label for="client_email">連絡信箱</label>
                                 <input type="text" class="form-control" id="client_email" name="client_email"
-                                    placeholder="" value="<?= $row['client_email']?>">
+                                    placeholder="" value="">
                                 <small id="client_emailHelp" class="form-text text-muted"></small>
                             </div>
 
                             <div class="form-group">
-                                <label for="contract_budget">合約預算</label>
+                                <label for="contract_budget">廣告預算</label>
                                 <input type="text" class="form-control" id="contract_budget" name="contract_budget"
-                                    placeholder="" value="<?= $row['contract_budget']?>">
+                                    placeholder="" value="">
                                 <small id="contract_budgetHelp" class="form-text text-muted"></small>
                             </div>
 
                             <div class="form-group">
                                 <label for="contract_start_date">合約開始日</label>
                                 <input type="text" class="form-control" id="contract_start_date"
-                                    name="contract_start_date" placeholder="" value="<?= $row['contract_start_date']?>">
+                                    name="contract_start_date" placeholder="" value="">
                                 <small id="contract_start_dateHelp" class="form-text text-muted"></small>
                             </div>
 
                             <div class="form-group">
                                 <label for="contract_end_date">合約結束日</label>
                                 <input type="text" class="form-control" id="contract_end_date" name="contract_end_date"
-                                    placeholder="" value="<?= $row['contract_end_date']?>">
+                                    placeholder="" value="">
                                 <small id="contract_end_dateHelp" class="form-text text-muted"></small>
                             </div>
 
-                            <button id="submit_btn" type="submit" class="btn btn-primary">Submit</button>
+                            <button id="submit_btn" type="submit" class="btn btn-primary">新增資料</button>
+                            <button id="submit_btn" type="reset" class="btn btn-primary">重新填寫</button>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
+                    </div> <!-- card -->
+                </div> <!-- col-lg-6 -->
+            </div> <!-- row -->
+        </div> <!-- container -->
 </section>
-
 <script>
 const info_bar = document.querySelector('#info_bar');
 const submit_btn = document.querySelector('#submit_btn');
@@ -131,7 +116,6 @@ const fields = [
     'contract_end_date',
 ];
 
-// 拿到每個欄位的參照
 const fs = {};
 for (let v of fields) {
     fs[v] = document.form1[v];
@@ -143,7 +127,6 @@ const checkForm = () => {
     let isPassed = true;
     info_bar.style.display = 'none';
 
-    // 拿到每個欄位的值
     const fsv = {};
     for (let v of fields) {
         fsv[v] = fs[v].value;
@@ -153,34 +136,38 @@ const checkForm = () => {
     let email_pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     let mobile_pattern = /^09\d{2}\-?\d{3}\-?\d{3}$/;
 
+
     for (let v of fields) {
         fs[v].style.borderColor = '#cccccc';
-        // console.log('#' + v + 'Help'); Added by Shinder
         document.querySelector('#' + v + 'Help').innerHTML = '';
     }
 
     if (fsv.client_name.length < 2) {
         fs.client_name.style.borderColor = 'red';
-        document.querySelector('#client_nameHelp').innerHTML = '請輸入正確客戶公司!';
+        document.querySelector('#client_nameHelp').innerHTML = "請輸入正確客戶公司!";
         isPassed = false;
     }
+
     if (!email_pattern.test(fsv.client_email)) {
         fs.client_email.style.borderColor = 'red';
-        document.querySelector('#client_emailHelp').innerHTML = '請輸入正確連絡信箱';
+        document.querySelector('#client_emailHelp').innerHTML = "請輸入正確連絡信箱!";
         isPassed = false;
     }
+
     if (!mobile_pattern.test(fsv.client_mobile)) {
         fs.client_mobile.style.borderColor = 'red';
-        document.querySelector('#client_mobileHelp').innerHTML = '請輸入正確連絡電話!';
+        document.querySelector('#client_mobileHelp').innerHTML = "請輸入正確連絡電話!";
         isPassed = false;
     }
+
+    // return isChecked;
 
     if (isPassed) {
         let form = new FormData(document.form1);
 
         submit_btn.style.display = 'none';
 
-        fetch('AnnDataEdit_client_api.php', {
+        fetch('ann_client_create_api.php', {
                 method: 'POST',
                 body: form
             })
@@ -192,7 +179,7 @@ const checkForm = () => {
 
                 if (obj.success) {
                     info_bar.className = 'alert alert-success';
-                    info_bar.innerHTML = '資料修改成功';
+                    info_bar.innerHTML = '資料新增成功';
                 } else {
                     info_bar.className = 'alert alert-danger';
                     info_bar.innerHTML = obj.errorMsg;
@@ -204,5 +191,4 @@ const checkForm = () => {
     return false;
 };
 </script>
-
 <?php include __DIR__ . '/foot.php'; ?>

@@ -1,13 +1,13 @@
 <?php
 
 require __DIR__ . '/PDO.php';
-$page_name = '_adAnnDataList';
+$page_name = 'ann_ad_list';
 
 ?>
 
 <?php include __DIR__ . '/head.php';?>
 <?php include __DIR__ . '/nav.php';?>
-<?php include __DIR__ . '/AnnSideNav.php'?>
+<?php include __DIR__ . '/ann_side_nav.php'?>
 
 <section class="dashboard">
 
@@ -128,7 +128,7 @@ $page_name = '_adAnnDataList';
         // ul_pagi.innerHTML = page;
 
         // To fetch data
-        fetch('_adAnnDataList_api.php?page=' + page)
+        fetch('ann_ad_list_api.php?page=' + page)
             /* .then(res =>{
                 return res.json();
             }) */

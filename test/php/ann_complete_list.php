@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__ . '/PDO.php';
-$page_name = '_clientAnnDataList';
+$page_name = 'ann_complete_list';
 
 $per_page = 10;
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
@@ -25,7 +25,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <?php include __DIR__ . '/head.php'; ?>
 <?php include __DIR__ . '/nav.php'; ?>
-<?php include __DIR__.'/AnnSideNav.php'?>
+<?php include __DIR__.'/ann_side_nav.php'?>
 
 <section class="dashboard">
 
@@ -56,8 +56,7 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     <table class="table table-striped table-bordered">
                         <thead>
-                            <tr>
-                                <th scope="col"><i class="fas fa-edit"></i></th>
+                            <tr> <!-- 16 items -->
                                 <th scope="col">#</th>
                                 <th scope="col">客戶公司</th>
                                 <th scope="col">客戶編號</th>
@@ -68,36 +67,35 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th scope="col">合約預算</th>
                                 <th scope="col">合約開始日</th>
                                 <th scope="col">合約結束日</th>
-                                <th scope="col">TESTTT</th>
-                                <th scope="col"><i class="far fa-trash-alt"></i></th>
+                                <th scope="col">廣告名稱</th>
+                                <th scope="col">廣告圖檔</th>
+                                <th scope="col">廣告連結</th>
+                                <th scope="col">點擊次數</th>
+                                <th scope="col">廣告放送開始時間</th>
+                                <th scope="col">廣告放送結束時間</th>
                             </tr>
                         </thead>
 
                         <tbody>                    
                             <?php foreach($rows as $row): ?>
-                            <tr>
-                                <td>
-                                    <a href="_clientAnnDataEdit.php?sn=<?= $row['sn'] ?>">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                </td>
-                                <td><?= $row['sn'] ?></td>
-                                <td><?= $row['client_name'] ?></td>
-                                <td><?= $row['client_number'] ?></td>
-                                <td><?= strip_tags($row['client_address']) ?></td>
-                                <td><?= $row['client_poc'] ?></td>
-                                <td><?= $row['client_mobile'] ?></td>
-                                <td><?= $row['client_email'] ?></td>
-                                <td><?= $row['contract_budget'] ?></td>
-                                <td><?= $row['contract_start_date'] ?></td>
-                                <td><?= $row['contract_end_date'] ?></td>
-                                <td><?= $row['TESTTT'] ?></td>
-                                <td>
-                                    <a href="javascript: delete_it(<?= $row['sn'] ?>)">
-                                        <i class="far fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td><?= $row['sn'] ?></td>
+                                    <td><?= $row['client_name'] ?></td>
+                                    <td><?= $row['client_number'] ?></td>
+                                    <td><?= strip_tags($row['client_address']) ?></td>
+                                    <td><?= $row['client_poc'] ?></td>
+                                    <td><?= $row['client_mobile'] ?></td>
+                                    <td><?= $row['client_email'] ?></td>
+                                    <td><?= $row['contract_budget'] ?></td>
+                                    <td><?= htmlentities($row['contract_start_date']) ?></td>
+                                    <td><?= htmlentities($row['contract_end_date']) ?></td>
+                                    <td><?= $row['ad_name'] ?></td>
+                                    <td><?= $row['ad_pic'] ?></td>
+                                    <td><?= $row['ad_link'] ?></td>
+                                    <td><?= $row['ad_link_count'] ?></td>
+                                    <td><?= $row['ad_start_time'] ?></td>
+                                    <td><?= $row['ad_end_time'] ?></td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -106,13 +104,5 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     
 </section>
-
-    <script>
-        function delete_it(sn) {
-            if (confirm ("確定要刪除編號為" + sn + "的資料嗎?")) {
-                location.href = '_clientAnnDataDelete.php?sn=' + sn;
-            }
-        }
-    </script>
 
 <?php include __DIR__ . '/foot.php'; ?>
