@@ -11,6 +11,7 @@ include __DIR__ . '/PDO.php';
 .form-group small {
     color: red !important;
 }
+
 </style>
 <section class="dashboard">
     <div class="container">
